@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of php-cache\apcu-adapter package.
+ * This file is part of php-cache organization.
  *
  * (c) 2015-2015 Aaron Scherer <aequasi@gmail.com>, Tobias Nyholm <tobias.nyholm@gmail.com>
  *
@@ -19,16 +19,28 @@ use Psr\Cache\CacheItemInterface;
  */
 class ApcuCachePool extends AbstractCachePool
 {
+    /**
+     * {@inheritdoc}
+     */
     protected function fetchObjectFromCache($key)
     {
-        return apcu_fetch($key);
+        $success = false;
+        $data    = apcu_fetch($key, $success);
+
+        return [$success, $data, []];
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function clearAllObjectsFromCache()
     {
         return apcu_clear_cache();
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function clearOneObjectFromCache($key)
     {
         apcu_delete($key);
@@ -36,8 +48,15 @@ class ApcuCachePool extends AbstractCachePool
         return true;
     }
 
-    protected function storeItemInCache($key, CacheItemInterface $item, $ttl)
+    /**
+     * {@inheritdoc}
+     */
+    protected function storeItemInCache(CacheItemInterface $item, $ttl)
     {
-        return apcu_store($key, $item, $ttl);
+        if ($ttl < 0) {
+            return false;
+        }
+
+        return apcu_store($item->getKey(), $item->get(), $ttl);
     }
 }
