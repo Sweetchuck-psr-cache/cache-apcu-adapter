@@ -12,17 +12,11 @@
 namespace Cache\Adapter\Apcu\Tests;
 
 use Cache\Adapter\Apcu\ApcuCachePool;
-use Cache\IntegrationTests\CachePoolTest as BaseTest;
+use Cache\IntegrationTests\SimpleCacheTest as BaseTest;
 
-class IntegrationPoolTest extends BaseTest
+class IntegrationSimpleCachelTest extends BaseTest
 {
-    protected $skippedTests = [
-        'testExpiration'      => 'The cache expire at the next request.',
-        'testSaveExpired'     => 'The cache expire at the next request.',
-        'testDeferredExpired' => 'The cache expire at the next request.',
-    ];
-
-    public function createCachePool()
+    public function createSimpleCache()
     {
         if (defined('HHVM_VERSION') || !function_exists('apcu_store')) {
             $this->markTestSkipped();
