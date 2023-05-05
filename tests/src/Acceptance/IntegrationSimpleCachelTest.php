@@ -12,15 +12,15 @@ declare(strict_types = 1);
  * with this source code in the file LICENSE.
  */
 
-namespace Cache\Adapter\Apcu\Tests;
+namespace Cache\Adapter\Apcu\Tests\Acceptance;
 
 use Cache\Adapter\Apcu\ApcuCachePool;
-use Cache\IntegrationTests\TaggableCachePoolTest;
-use Cache\TagInterop\TaggableCacheItemPoolInterface;
+use Cache\IntegrationTests\SimpleCacheTest as BaseTest;
+use Psr\SimpleCache\CacheInterface;
 
-class IntegrationTagTest extends TaggableCachePoolTest
+class IntegrationSimpleCachelTest extends BaseTest
 {
-    public function createCachePool(): TaggableCacheItemPoolInterface
+    public function createSimpleCache(): CacheInterface
     {
         if (defined('HHVM_VERSION')
             || !function_exists('apcu_store')

@@ -12,27 +12,15 @@ declare(strict_types = 1);
  * with this source code in the file LICENSE.
  */
 
-namespace Cache\Adapter\Apcu\Tests;
+namespace Cache\Adapter\Apcu\Tests\Acceptance;
 
 use Cache\Adapter\Apcu\ApcuCachePool;
-use Cache\IntegrationTests\CachePoolTest as BaseTest;
-use Psr\Cache\CacheItemPoolInterface;
+use Cache\IntegrationTests\TaggableCachePoolTest;
+use Cache\TagInterop\TaggableCacheItemPoolInterface;
 
-class IntegrationPoolTest extends BaseTest
+class IntegrationTagTest extends TaggableCachePoolTest
 {
-
-    /**
-     * {@inheritdoc}
-     *
-     * @phpstan-var array<string, string>
-     */
-    protected array $skippedTests = [
-        'testExpiration' => 'The cache expire at the next request.',
-        'testSaveExpired' => 'The cache expire at the next request.',
-        'testDeferredExpired' => 'The cache expire at the next request.',
-    ];
-
-    public function createCachePool(): CacheItemPoolInterface
+    public function createCachePool(): TaggableCacheItemPoolInterface
     {
         if (defined('HHVM_VERSION')
             || !function_exists('apcu_store')

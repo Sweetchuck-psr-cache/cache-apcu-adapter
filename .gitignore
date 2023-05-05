@@ -1,0 +1,7 @@
+/.cache/
+
+/reports/
+
+/vendor/
+/composer.lock
+
